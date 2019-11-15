@@ -1,0 +1,6 @@
+table {
+    display: table !important;
+    border-collapse: separate !important; //Вокруг каждой ячейки отображается своя рамка, в местах соприкосновения показываются сразу две линии.
+    border-spacing: 6px !important; //Задает расстояние между границами ячеек в таблице
+    border-color: grey !important; //цвет границы
+}

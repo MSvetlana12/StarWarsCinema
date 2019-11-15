@@ -1,0 +1,56 @@
+<?php
+  #unset($_POST ['Email']);
+  $servername = "localhost";
+  $username = "root";
+  $password = "";
+  $dbname = "starwars_cinema";
+  // Создание соединения
+  $conn = new mysqli($servername, $username, $password, $dbname);
+  // Проверка подключения
+  if ($conn->connect_error)
+  {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  //строка запроса
+  if (isset($_POST ['reg']))
+  {
+
+      $email=$_POST ['Email']; //Защита от хостингов, не поддерживающих прямую передачу переменных из формы на сервер
+      $name=$_POST ['Name'];
+      $lastname=$_POST ['Lastname'];
+      $password=$_POST ['Password'];
+      #echo "<br/>$email";
+    if ($email!='')
+    {
+      $sql = "SELECT * FROM `registraciya` WHERE Email='$email'";
+      $result = $conn->query($sql);
+      if ($result->num_rows > 0)
+      {
+          while($row = $result->fetch_assoc())
+         {
+                  $prover=$row["Email"];
+         }
+      }
+      if($prover!=null)
+      {
+        $err =  "Такой E-mail уже существует!";
+        echo '<div class="alert alert-danger" role="alert">'.$err.'</div>';
+      }else
+      {
+
+          $sql = "INSERT INTO `registraciya`( `Email`, `Name`, `Lastname`, `Password`) VALUES ($email','$name','$lastname','$password')";
+          #$result = $conn->query($sql);
+          if ($result = $conn->query($sql))
+          {
+              $smsg = "Информация успешно добавлена в базу!";
+            #  echo "<div class="alert alert-success" role="alert">.$smsg </div>";
+          }
+          else
+          {
+              $fsmsg = "Информация не добавлена в базу!";
+            #@  echo "<div class="alert alert-danger" role="alert">  $fsmsg </div>";
+          }
+      }
+    }
+}
+  ?>
